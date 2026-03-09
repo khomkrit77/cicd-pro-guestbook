@@ -34,7 +34,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 // ส่งตัวแปรเข้าไปใน docker-compose
-                sh "IMAGE_TAG=${IMAGE_TAG} REGISTRY_IMAGE=${REGISTRY_IMAGE} docker compose up -d --force-recreate"
+                sh "IMAGE_TAG=${IMAGE_TAG} REGISTRY_IMAGE=${REGISTRY_IMAGE} docker-compose up -d --force-recreate"
             }
         }
     }
