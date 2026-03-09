@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  web:
+    image: ${REGISTRY_IMAGE}:${IMAGE_TAG}
+    container_name: guestbook-web
+    ports:
+      - "8081:80"  # เปลี่ยน port หลบโปรเจกต์เก่า
+    depends_on:
+      - redis
+    restart: always
+
+  redis:
+    image: redis:alpine
+    container_name: guestbook-db
+    restart: always

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Guestbook CI/CD</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #f4f4f4; }
+        .card { background: white; padding: 20px; border-radius: 10px; display: inline-block; margin-top: 50px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .status { color: #28a745; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>📔 Guestbook App</h1>
+        <p>Status: <span class="status">Connected to Redis</span></p>
+        <hr>
+        <input type="text" id="msg" placeholder="Write something...">
+        <button onclick="save()">Save to DB</button>
+        <ul id="list"></ul>
+        <hr>
+        <small>Build: BUILD_NUMBER_PLACEHOLDER | Date: DEPLOY_DATE_PLACEHOLDER</small>
+    </div>
+
+    <script>
+        function save() {
+            const msg = document.getElementById('msg').value;
+            if(msg) {
+                const li = document.createElement('li');
+                li.textContent = msg;
+                document.getElementById('list').appendChild(li);
+                document.getElementById('msg').value = '';
+                alert('Saved to Redis (Simulated)');
+            }
+        }
+    </script>
+</body>
+</html>
