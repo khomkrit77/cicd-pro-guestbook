@@ -19,7 +19,7 @@ services:
     container_name: guestbook-db
     command: redis-server --appendonly yes  # บังคับให้ Redis บันทึกข้อมูลลง Disk เสมอ
     volumes:
-      - redis-data:/data  # ผูกที่เก็บข้อมูลไว้กับ Named Volume
+      - /home/superuser/redis:/data
     networks:
       - guestbook-network
     restart: always
@@ -29,6 +29,3 @@ networks:
   guestbook-network:
     driver: bridge
 
-# 4. การประกาศ Volume เพื่อให้ข้อมูลไม่หาย
-volumes:
-  redis-data:
