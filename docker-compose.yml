@@ -1,24 +1,34 @@
 version: '3.8'
 
 services:
+  # 1. ส่วนของ Web Server (Nginx)
   web:
     image: ${REGISTRY_IMAGE}:${IMAGE_TAG}
     container_name: guestbook-web
     ports:
-      - "8081:80"
+      - "8081:80"  # เข้าหน้าเว็บผ่าน http://IP-ของคุณ:8081
     depends_on:
       - redis
+    networks:
+      - guestbook-network
     restart: always
 
+  # 2. ส่วนของ Database (Redis)
   redis:
     image: redis:alpine
     container_name: guestbook-db
-    restart: always
-    # --- เพิ่มส่วนนี้เข้าไป ---
+    command: redis-server --appendonly yes  # บังคับให้ Redis บันทึกข้อมูลลง Disk เสมอ
     volumes:
-      - redis-data:/data
-    command: redis-server --appendonly yes # สั่งให้ Redis เซฟข้อมูลลงไฟล์ตลอดเวลา
+      - redis-data:/data  # ผูกที่เก็บข้อมูลไว้กับ Named Volume
+    networks:
+      - guestbook-network
+    restart: always
 
-# ประกาศสร้าง Volume กลาง
+# 3. การประกาศ Network เพื่อให้ Web คุยกับ Redis ได้
+networks:
+  guestbook-network:
+    driver: bridge
+
+# 4. การประกาศ Volume เพื่อให้ข้อมูลไม่หาย
 volumes:
   redis-data:
